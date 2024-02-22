@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 class Patient {
@@ -6,117 +7,118 @@ class Patient {
     private int age;
     private String gender;
     private String address;
-
-    public Patient(String name, int age, String gender, String address) {
+    private String phoneNumber;
+    
+    public Patient(String name, int age, String gender, String address, String phoneNumber) {
         this.name = name;
         this.age = age;
         this.gender = gender;
         this.address = address;
+        this.phoneNumber = phoneNumber;
     }
-
-    // Getters and setters for the Patient class
-}
-
-class Doctor {
-    private String name;
-    private String specialization;
-
-    public Doctor(String name, String specialization) {
-        this.name = name;
-        this.specialization = specialization;
+    
+    public String getName() {
+        return name;
     }
-
-    // Getters and setters for the Doctor class
-}
-
-class Appointment {
-    private Patient patient;
-    private Doctor doctor;
-    private String date;
-
-    public Appointment(Patient patient, Doctor doctor, String date) {
-        this.patient = patient;
-        this.doctor = doctor;
-        this.date = date;
+    
+    public int getAge() {
+        return age;
     }
-
-    // Getters and setters for the Appointment class
+    
+    public String getGender() {
+        return gender;
+    }
+    
+    public String getAddress() {
+        return address;
+    }
+    
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+    
+    @Override
+    public String toString() {
+        return "Name: " + name + ", Age: " + age + ", Gender: " + gender + ", Address: " + address + ", Phone Number: " + phoneNumber;
+    }
 }
 
 class Hospital {
-    private ArrayList<Patient> patients;
-    private ArrayList<Doctor> doctors;
-    private ArrayList<Appointment> appointments;
-
+    private List<Patient> patients;
+    
     public Hospital() {
-        this.patients = new ArrayList<>();
-        this.doctors = new ArrayList<>();
-        this.appointments = new ArrayList<>();
+        patients = new ArrayList<>();
     }
-
-    // Methods to add and retrieve patients, doctors, and appointments
-
+    
     public void addPatient(Patient patient) {
-        this.patients.add(patient);
+        patients.add(patient);
+        System.out.println("Patient added successfully!");
     }
-
-    public void addDoctor(Doctor doctor) {
-        this.doctors.add(doctor);
-    }
-
-    public void scheduleAppointment(Patient patient, Doctor doctor, String date) {
-        Appointment appointment = new Appointment(patient, doctor, date);
-        this.appointments.add(appointment);
-    }
-
-    // Other methods for searching patients, doctors, and appointments
-
-    public ArrayList<Patient> getPatients() {
-        return this.patients;
-    }
-
-    public ArrayList<Doctor> getDoctors() {
-        return this.doctors;
-    }
-
-    public ArrayList<Appointment> getAppointments() {
-        return this.appointments;
+    
+    public void displayPatients() {
+        if (patients.isEmpty()) {
+            System.out.println("No patients found.");
+        } else {
+            System.out.println("List of patients:");
+            for (Patient patient : patients) {
+                System.out.println(patient);
+            }
+        }
     }
 }
 
 public class HospitalManagementSystem {
     public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
         Hospital hospital = new Hospital();
-
-        // Add sample patients and doctors
-        hospital.addPatient(new Patient("John Doe", 35, "Male", "123 Main St"));
-        hospital.addPatient(new Patient("Jane Doe", 28, "Female", "456 Oak St"));
-
-        hospital.addDoctor(new Doctor("Dr. Smith", "Cardiologist"));
-        hospital.addDoctor(new Doctor("Dr. Johnson", "Orthopedic"));
-
-        // Schedule sample appointments
-        Patient patient = hospital.getPatients().get(0);
-        Doctor doctor = hospital.getDoctors().get(0);
-        hospital.scheduleAppointment(patient, doctor, "2024-02-23");
-
-        // Display patient information
-        System.out.println("Patients:");
-        for (Patient p : hospital.getPatients()) {
-            System.out.println("Name: " + p.getName() + ", Age: " + p.getAge() + ", Gender: " + p.getGender() + ", Address: " + p.getAddress());
+        
+        boolean exit = false;
+        
+        while (!exit) {
+            System.out.println("Hospital Management System");
+            System.out.println("1. Add Patient");
+            System.out.println("2. Display Patients");
+            System.out.println("3. Exit");
+            System.out.print("Enter your choice: ");
+            
+            int choice = scanner.nextInt();
+            scanner.nextLine(); // consume newline character
+            
+            switch (choice) {
+                case 1:
+                    System.out.print("Enter patient name: ");
+                    String name = scanner.nextLine();
+                    System.out.print("Enter patient age: ");
+                    int age = scanner.nextInt();
+                    scanner.nextLine(); // consume newline character
+                    System.out.print("Enter patient gender: ");
+                    String gender = scanner.nextLine();
+                    System.out.print("Enter patient address: ");
+                    String address = scanner.nextLine();
+                    System.out.print("Enter patient phone number: ");
+                    String phoneNumber = scanner.nextLine();
+                    
+                    Patient patient = new Patient(name, age, gender, address, phoneNumber);
+                    hospital.addPatient(patient);
+                    break;
+                case 2:
+                    hospital.displayPatients();
+                    break;
+                case 3:
+                    exit = true;
+                    break;
+                default:
+                    System.out.println("Invalid choice. Please try again.");
+            }
+            
+            System.out.println();
         }
-
-        // Display doctor information
-        System.out.println("\nDoctors:");
-        for (Doctor d : hospital.getDoctors()) {
-            System.out.println("Name: " + d.getName() + ", Specialization: " + d.getSpecialization());
-        }
-
-        // Display appointment information
-        System.out.println("\nAppointments:");
-        for (Appointment a : hospital.getAppointments()) {
-            System.out.println("Patient: " + a.getPatient().getName() + ", Doctor: " + a.getDoctor().getName() + ", Date: " + a.getDate());
-        }
+        
+        scanner.close();
     }
+
+{
+    
+}
 }
 
